@@ -2,8 +2,20 @@ final Item[] ITEMS = {new Item(100, 100), new Item(25, 10), new Item(500, 700), 
 Backpack[] bags;
 
 void setup() {
-  bags = new Backpack[1000];
+  bags = initializePopulation(1000);
 }
 
 void draw() {
+}
+
+
+
+Backpack[] initializePopulation (int size) {
+  Backpack[] temp = new Backpack[size];
+  
+  for(int i = 0;i<temp.length ;i++){
+    temp[i] = new Backpack();
+  }
+  
+  return temp;
 }
