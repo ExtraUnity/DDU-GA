@@ -5,16 +5,7 @@ class Backpack {
   final float MAXIMUM_WEIGHT = 5000;
 
   Backpack() {
-    //for(int i = 0; i<(int) random(1,100); i++) {
-    //  items.add(ITEMS[(int) random(0,ITEMS.length)]);
-    //}
-
-    // Alternative:
-    for (int i = 0; i<ITEMS.length; i++) {
-      if (random(1)>0.5) {
-        items.add(ITEMS[i]);
-      }
-    }
+    // use Christians variant
   }
 
   void mutate() {

@@ -3,18 +3,32 @@ Backpack[] bags;
 
 void setup() {
   bags = initializePopulation(1000);
+  
+  Item i = new Item("400 800 Petzl rope");
 }
 
 void draw() {
 }
-
-
 
 Backpack[] initializePopulation (int size) {
   Backpack[] temp = new Backpack[size];
   
   for(int i = 0;i<temp.length ;i++){
     temp[i] = new Backpack();
+  }
+  
+  return temp;
+}
+
+Item[] itemImport(String path){
+  // Weight Value Name
+  // Weight SPACE Value SPACE Name
+  
+  String[] input = loadStrings(path);
+  Item[] temp = new Item[input.length];
+  
+  for(int i = 0; i<temp.length;i++){
+    temp[i] = new Item(input[i]);
   }
   
   return temp;
