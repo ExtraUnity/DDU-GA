@@ -148,4 +148,16 @@ void keyPressed() {
     times = 0;
     bags = initializePopulation(size);
   }
+
+Backpack bestBackpack(){
+  float max = 0;
+  int maxIndex = 0;
+  for(int i = 0; i<bags.length; i++) {
+    if(bags[i].getFitness()>max) {
+      max = bags[i].getFitness();
+      maxIndex = i;
+    }
+  }
+  return bags[maxIndex];
+  
 }

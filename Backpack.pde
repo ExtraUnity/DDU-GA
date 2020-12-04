@@ -52,4 +52,13 @@ class Backpack {
     } 
     return this.fitness;
   }
+  
+  String toString(){
+    StringBuilder sb = new StringBuilder(50);
+    for(Item q : items){
+       sb.append(q.name + ", ");
+    }
+  
+    return sb.toString();
+  }
 }
