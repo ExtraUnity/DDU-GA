@@ -10,17 +10,17 @@ class Item {
   }
 
   Item(String instruction) {
-    // the expected format is Weight Value name
+    // the expected format is Name Weight Value 
     // one item per instruction
 
-    int firstSpace = instruction.indexOf(' ');
-    int secondSpace = instruction.indexOf(' ',firstSpace+1 );
-    
-    String wei = instruction.substring(0,firstSpace);
-    String val = instruction.substring(firstSpace+1,secondSpace);
-    
-    this.weight = Float.parseFloat(wei);
-    this.value = Float.parseFloat(val);
-    this.name =instruction.substring(secondSpace+1);
+    String[] split = instruction.split(" ");
+
+    this.name = "";
+    for (int i= 0; i<split.length -2; i++) {
+      this.name += split[i] + " ";
+    }
+
+    this.weight = Float.parseFloat(split[split.length-1]);
+    this.value = Float.parseFloat(split[split.length]);
   }
 }
