@@ -20,7 +20,7 @@ class Item {
       this.name += split[i] + " ";
     }
 
-    this.weight = Float.parseFloat(split[split.length-1]);
-    this.value = Float.parseFloat(split[split.length]);
+    this.weight = Float.parseFloat(split[split.length-2]);
+    this.value = Float.parseFloat(split[split.length-1]);
   }
 }
