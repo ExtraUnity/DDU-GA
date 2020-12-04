@@ -1,14 +1,42 @@
 Item[] ITEMS ;//= {new Item(100, 100), new Item(25, 10), new Item(500, 700), new Item(1000, 700), new Item(225, 45), new Item(31, 48), new Item(83, 101)};
 Backpack[] bags;
-
+int size = 4137;
+float average = 0;
+int times = 0;
+float globalMutationRate = 0.01;
 void setup() {
   ITEMS = itemImport("input.txt");
-  bags = initializePopulation(8);
-  frameRate(1);
+  bags = initializePopulation(size);
+  frameRate(100);
 }
 
 void draw() {
-  println(bestFitness());
+  // print(frameCount + " ");
+  // println(bestFitness());
+
+  if (bestFitness() == 1130) {
+    if (times == 0) {
+      average = frameCount;
+      times++;
+    } else {
+      float averageTotal = average*times;
+      averageTotal+=frameCount;
+      average = averageTotal/++times;
+     if(times == 30) {
+        print(average + " ");
+        print(size + " ");
+        println(globalMutationRate);
+      }
+    }
+
+    bags = initializePopulation(size);
+    frameCount = 0;
+  }
+  if (frameCount>100) {
+    frameCount = 0;
+    bags = initializePopulation(size);
+  }
+
   bags = makeNewPopulation();
 }
 
@@ -42,32 +70,25 @@ Backpack[] makeNewPopulation () {
 
 Backpack mergeBackpacks(Backpack b1, Backpack b2) {
   Backpack tempBack = new Backpack();
-  for (int i = 0; i<ITEMS.length; i++) {
-    if (b1.items[i] != null && b2.items[i] != null) { //If both have the item, the new one will also have it
-      if (!tempBack.willMutate()) { //chance to mutate
-        tempBack.items[i] = ITEMS[i];
-      }
-    } else if (b1.items[i] != null || b1.items[i] != null) { //If one of the backpacks has the item
-      if (random(1)<0.5) { //then its 50/50
-        tempBack.items[i] = ITEMS[i];
-      }
-    } else if (tempBack.willMutate()) { //No one has it - there is a chance to mutate
-      tempBack.items[i] = ITEMS[i];
-    } else {
-      tempBack.items[i] = null;
-    }
+  int pivot = (int) random(0, ITEMS.length);
+  for (int i = 0; i<pivot; i++) {
+    tempBack.items[i] = b1.items[i];
+    tempBack.mutate(i);
+  }
+  for (int i = pivot; i<ITEMS.length; i++) {
+    tempBack.items[i] = b2.items[i];
   }
   return tempBack;
 }
 
 Backpack selectBackpack(float totalFitness) {
 
-  float outOf = 0;
-  float selection = random(1);
+  double outOf = 0;
+  double selection = random(1);
   for (int i = 0; i<bags.length; i++) {
     outOf += bags[i].getFitness()/totalFitness;
-    
-    if (selection<outOf) {
+
+    if (selection-outOf<0.000001) { //floating point error makes this nessecary
       return bags[i];
     }
   }
@@ -82,14 +103,14 @@ float totalFitness() {
   return temp;
 }
 
-Item[] itemImport(String path){
+Item[] itemImport(String path) {
   // Weight Value Name
   // Weight SPACE Value SPACE Name
-  
+
   String[] input = loadStrings(path);
   Item[] temp = new Item[input.length];
-  
-  for(int i = 0; i<temp.length;i++){
+
+  for (int i = 0; i<temp.length; i++) {
     temp[i] = new Item(input[i]);
   }
   return temp;
@@ -97,10 +118,34 @@ Item[] itemImport(String path){
 
 float bestFitness() {
   float max = 0;
-  for(int i = 0; i<bags.length; i++) {
-    if(bags[i].getFitness()>max) {
+  for (int i = 0; i<bags.length; i++) {
+    if (bags[i].getFitness()>max) {
       max = bags[i].getFitness();
     }
   }
   return max;
+}
+
+void keyPressed() {
+  if (key=='w' && globalMutationRate != 0.99) {
+    globalMutationRate+=0.01;
+    average = 0;
+    times = 0;
+    bags = initializePopulation(size);
+  } else if (key=='s' && globalMutationRate != 0) {
+    globalMutationRate-=0.001;
+    average = 0;
+    times = 0;
+    bags = initializePopulation(size);
+  } else if (key == 'i') {
+    size+=500;
+    average = 0;
+    times = 0;
+    bags = initializePopulation(size);
+  } else if (key == 'k') {
+    size-=500;
+    average = 0;
+    times = 0;
+    bags = initializePopulation(size);
+  }
 }

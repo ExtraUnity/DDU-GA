@@ -1,14 +1,14 @@
 class Backpack {
   Item[] items;
   float fitness = 0;
-  float mutationRate = 0.05;
+  float mutationRate;
   final float MAXIMUM_WEIGHT = 5000;
 
   Backpack() {
     //for(int i = 0; i<(int) random(1,100); i++) {
     //  items.add(ITEMS[(int) random(0,ITEMS.length)]);
     //}
-    this.mutationRate = 0;
+    this.mutationRate = globalMutationRate;
     items = new Item[ITEMS.length];
     // Alternative:
     for (int i = 0; i<ITEMS.length; i++) {
@@ -18,8 +18,14 @@ class Backpack {
     }
   }
 
-  boolean willMutate() {
-    return random(1)>this.mutationRate;
+  void mutate(int index) {
+    if(random(1)<mutationRate) {
+      if(this.items[index] != null) {
+      this.items[index] = null;
+      } else {
+        this.items[index] = ITEMS[index];
+      }
+    }
   }
 
   float fitness() {
@@ -27,9 +33,9 @@ class Backpack {
     int wei = 0;
 
     for (Item q : this.items) {
-      if(q != null) {
-      val += q.value;
-      wei += q.weight;
+      if (q != null) {
+        val += q.value;
+        wei += q.weight;
       }
     }
     if (wei > MAXIMUM_WEIGHT) {
