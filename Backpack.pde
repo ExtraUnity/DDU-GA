@@ -56,9 +56,21 @@ class Backpack {
   String toString(){
     StringBuilder sb = new StringBuilder(50);
     for(Item q : items){
-       sb.append(q.name + ", ");
+      if(q != null) {
+       sb.append(q.name + "\n");
+      }
     }
   
     return sb.toString();
   }
+  int getWeight() {
+    int wei = 0;
+    for (Item q : this.items) {
+      if (q != null) {
+        wei += q.weight;
+      }
+    }
+    return wei;
+  }
+  
 }
