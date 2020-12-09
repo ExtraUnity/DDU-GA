@@ -22,7 +22,7 @@ void draw() {
       float averageTotal = average*times;
       averageTotal+=frameCount;
       average = averageTotal/++times;
-     if(times == 30) {
+      if (times == 30) {
         print(average + " ");
         print(size + " ");
         println(globalMutationRate);
@@ -127,37 +127,37 @@ float bestFitness() {
 }
 
 void keyPressed() {
+  average = 0;
+  times = 0;
+  bags = initializePopulation(size);
   if (key=='w' && globalMutationRate != 0.99) {
-    globalMutationRate+=0.01;
-    average = 0;
-    times = 0;
-    bags = initializePopulation(size);
+    changeMutation(0.001);
   } else if (key=='s' && globalMutationRate != 0) {
-    globalMutationRate-=0.001;
-    average = 0;
-    times = 0;
-    bags = initializePopulation(size);
+    changeMutation(-0.01);
   } else if (key == 'i') {
-    size+=500;
-    average = 0;
-    times = 0;
-    bags = initializePopulation(size);
+    changePopulation(500);
   } else if (key == 'k') {
-    size-=500;
-    average = 0;
-    times = 0;
-    bags = initializePopulation(size);
+    changePopulation(-500);
   }
+}
 
-Backpack bestBackpack(){
+void changeMutation(float amount) {
+  globalMutationRate += amount;
+}
+
+void changePopulation(int amount) {
+  size += amount;
+}
+
+
+Backpack bestBackpack() {
   float max = 0;
   int maxIndex = 0;
-  for(int i = 0; i<bags.length; i++) {
-    if(bags[i].getFitness()>max) {
+  for (int i = 0; i<bags.length; i++) {
+    if (bags[i].getFitness()>max) {
       max = bags[i].getFitness();
       maxIndex = i;
     }
   }
   return bags[maxIndex];
-  
 }
