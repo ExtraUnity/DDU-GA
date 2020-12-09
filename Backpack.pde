@@ -2,7 +2,7 @@ class Backpack {
   Item[] items;
   float fitness = 0;
   float mutationRate;
-  final float MAXIMUM_WEIGHT = 5000;
+  final float MAXIMUM_WEIGHT = maxWeight;
 
   Backpack() {
     //for(int i = 0; i<(int) random(1,100); i++) {

@@ -1,19 +1,23 @@
 import java.util.Collections;
 Item[] ITEMS ;//= {new Item(100, 100), new Item(25, 10), new Item(500, 700), new Item(1000, 700), new Item(225, 45), new Item(31, 48), new Item(83, 101)};
 Backpack[] bags;
-int size = 4137;
+int size;
 float average = 0;
 int times = 0;
-float globalMutationRate = 0.01;
+float globalMutationRate;
 ArrayList<Integer> generations = new ArrayList<Integer>();
 ArrayList<Integer> bestFitnesses = new ArrayList<Integer>();
+ArrayList<Integer> worstFitnesses = new ArrayList<Integer>();
+int maxWeight;
 void setup() {
+  loadConfig();
   fullScreen();
   ITEMS = itemImport("input.txt");
   bags = initializePopulation(size);
   frameRate(10);
   generations.add(frameCount);
   bestFitnesses.add((int) bestFitness());
+  worstFitnesses.add((int) worstFitness());
 }
 
 void draw() {
@@ -23,34 +27,11 @@ void draw() {
   //println(bestFitness());
   bags = makeNewPopulation();
 
-  //   println((time2-time));
+
   background(100);
   addToList();
   renderGraph();
   long time2 = System.currentTimeMillis();
-  
-  //if (bestFitness() == 1130) {
-  //  if (times == 0) {
-  //    average = frameCount;
-  //    times++;
-  //  } else {
-  //    float averageTotal = average*times;
-  //    averageTotal+=frameCount;
-  //    average = averageTotal/++times;
-  //    if (times == 30) {
-  //      print(average + " ");
-  //      print(size + " ");
-  //      println(globalMutationRate);
-  //    }
-  //  }
-
-  //  bags = initializePopulation(size);
-  //  frameCount = 0;
-  //}
-  //if (frameCount>100) {
-  //  frameCount = 0;
-  //  bags = initializePopulation(size);
-  //}
 }
 
 Backpack[] initializePopulation (int size) {
@@ -69,12 +50,12 @@ Backpack[] makeNewPopulation () {
   Backpack[] temp = new Backpack[bags.length];
 
   for (int i = 0; i<temp.length; i++) {
-  Backpack[] b = new Backpack[2];
+    Backpack[] b = new Backpack[2];
     for (int j = 0; j<b.length; j++) {
 
       b[j] = selectBackpack(totalFitness, b[0]);
     }
-        temp[i] = mergeBackpacks(b[0], b[1]);
+    temp[i] = mergeBackpacks(b[0], b[1]);
   }
 
 
@@ -127,13 +108,11 @@ float totalFitness() {
 }
 
 Item[] itemImport(String path) {
-  // Weight Value Name
-  // Weight SPACE Value SPACE Name
 
   String[] input = loadStrings(path);
   Item[] temp = new Item[input.length];
 
-  for (int i = 0; i<temp.length; i++) {
+  for (int i = 1; i<temp.length; i++) {
     temp[i] = new Item(input[i]);
   }
   return temp;
@@ -149,27 +128,14 @@ float bestFitness() {
   return max;
 }
 
-void keyPressed() {
-  average = 0;
-  times = 0;
-  bags = initializePopulation(size);
-  if (key=='w' && globalMutationRate != 0.99) {
-    changeMutation(0.001);
-  } else if (key=='s' && globalMutationRate != 0) {
-    changeMutation(-0.01);
-  } else if (key == 'i') {
-    changePopulation(500);
-  } else if (key == 'k') {
-    changePopulation(-500);
+float worstFitness() {
+  float min = bestFitness();
+  for (int i = 1; i<bags.length; i++) {
+    if (bags[i].getFitness()<min && bags[i].getFitness()>0) {
+      min = bags[i].getFitness();
+    }
   }
-}
-
-void changeMutation(float amount) {
-  globalMutationRate += amount;
-}
-
-void changePopulation(int amount) {
-  size += amount;
+  return min;
 }
 
 
@@ -190,12 +156,14 @@ void addToList() {
     if (!bestFitnesses.get(bestFitnesses.size()-1).equals(Collections.max(bestFitnesses)) || !bestFitnesses.get(bestFitnesses.size()-21).equals(Collections.max(bestFitnesses))) {
       generations.add(frameCount);
       bestFitnesses.add((int) bestFitness());
+      worstFitnesses.add((int) worstFitness());
     } else {
       noLoop();
     }
   } else {
     generations.add(frameCount);
     bestFitnesses.add((int) bestFitness());
+    worstFitnesses.add((int) worstFitness());
   }
 }
 
@@ -203,9 +171,16 @@ void renderGraph() {
   for (int i = 0; i<generations.size()-1; i++) {
     int x1 = round(map(generations.get(i), 0, frameCount, 0, width*0.8));
     int x2 = round(map(generations.get(i+1), 0, frameCount, 0, width*0.8));
-    int y1 = round(map(bestFitnesses.get(i), bestFitnesses.get(0)-100, Collections.max(bestFitnesses)+height*0.1, height, 0));
-    int y2 = round(map(bestFitnesses.get(i+1), bestFitnesses.get(0)-100, Collections.max(bestFitnesses)+height*0.1, height, 0));
+
+    int y1 = round(map(bestFitnesses.get(i), Collections.min(worstFitnesses)-50, Collections.max(bestFitnesses)+height*0.1, height, 0));
+    int y2 = round(map(bestFitnesses.get(i+1), Collections.min(worstFitnesses)-50, Collections.max(bestFitnesses)+height*0.1, height, 0));
+    int y3 = round(map(worstFitnesses.get(i), Collections.min(worstFitnesses)-50, Collections.max(bestFitnesses)+height*0.1, height, 0));
+    int y4 = round(map(worstFitnesses.get(i+1), Collections.min(worstFitnesses)-50, Collections.max(bestFitnesses)+height*0.1, height, 0));
+    stroke(0, 0, 255);
     line(x1, y1, x2, y2);
+    stroke(255, 0, 0);
+    line(x1, y3, x2, y4);
+    stroke(0);
   }
   line(width*0.8, height, width*0.8, 0);
   textSize(24);
@@ -218,4 +193,25 @@ void renderGraph() {
   text("Best backpack: ", width*0.81, height*0.31);
   textSize(16);
   text(bestBackpack().toString(), width*0.81, height*0.34);
+  fill(0, 0, 255);
+  rect(width*0.81, height*0.9, 20, 20);
+  fill(255, 0, 0);
+  rect(width*0.81, height*0.95, 20, 20);
+  fill(255);
+  text("Best Fitness", width*0.83,height*0.9+15);
+  text("Worst Fitness", width*0.83,height*0.95+15);
+}
+
+void loadConfig() {
+  String[] config = loadStrings("config.txt");
+  for (String s : config) {
+    String[] split = s.split(" ");
+    if (split[0].equals("population")) {
+      size = Integer.parseInt(split[1]);
+    } else if (split[0].equals("mutationRate")) {
+      globalMutationRate = Float.parseFloat(split[1]);
+    } else if (split[0].equals("maxWeight")) {
+      maxWeight = Integer.parseInt(split[1]);
+    }
+  }
 }

@@ -1,3 +1,4 @@
+Navn Masse Værdi
 kort 90 150
 kompas 130 35
 vand 1530 200
