@@ -1,5 +1,5 @@
 import java.util.Collections;
-Item[] ITEMS ;
+Item[] ITEMS;
 Backpack[] bags;
 int size;
 float average = 0;
@@ -16,7 +16,7 @@ void setup() {
   fullScreen();
   ITEMS = itemImport("input.txt");
   bags = initializePopulation(size);
-  frameRate(5);
+  frameRate(300);
   generations.add(frameCount);
   bestFitnesses.add((int) bestFitness());
   worstFitnesses.add((int) worstFitness());
@@ -157,8 +157,8 @@ void addToList() {
       bestFitnesses.add((int) bestFitness());
       worstFitnesses.add((int) worstFitness());
     } else {
-      long time2 = System.nanoTime();
-      println((time2-time)/1000000000);
+      //long time2 = System.nanoTime();
+      //println((time2-time)/1000000000);
       noLoop();
     }
   } else {
@@ -173,7 +173,7 @@ boolean maxFound() {
   int count = 0;
   
   for(int i = 1; i<6 ; i++){
-   if( bestFitnesses.get(bestFitnesses.size()-i) - bestFitnesses.get(bestFitnesses.size()-i-1) == 0) {
+   if(bestFitnesses.get(bestFitnesses.size()-i) - bestFitnesses.get(bestFitnesses.size()-i-1) == 0 && bestFitnesses.get(bestFitnesses.size()-i).equals(Collections.max(bestFitnesses))) {
      count ++;
    }
   }
