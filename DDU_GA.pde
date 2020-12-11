@@ -171,8 +171,8 @@ void addToList() {
 void confirmAndFound(){
   //text("First found at: "+bestFitnesses.indexOf(Collections.max(bestFitnesses)));
   //text("Confirmed at: " + frameCount, );
-  textSize(24);
-  text(bestFitnesses.indexOf(Collections.max(bestFitnesses)),width*0.90, height*0.30 );
+  textSize(width*0.0125);
+  text(bestFitnesses.indexOf(Collections.max(bestFitnesses)),width*0.90, height*0.30 ); 
   text(frameCount,width*0.90,height*0.33);
 }
 
@@ -210,7 +210,7 @@ void renderGraph() {
     stroke(0);
   }
   line(width*0.8, height, width*0.8, 0);
-  textSize(24);
+  textSize(width*0.0125);
   text("Time: " + millis()/1000.0 +"s", width*0.81, height*0.07);
   text("Generation: " + frameCount, width*0.81, height*0.1);
   text("Best Fitness: " + Collections.max(bestFitnesses), width*0.81, height*0.13);
@@ -225,8 +225,8 @@ void renderGraph() {
   
   line(width*0.81, height*0.34, width-width*0.01, height*0.34);
   text("Best backpack: ", width*0.81, height*0.37);
-  textSize(16);
-  text(bestBackpack().toString(), width*0.81, height*0.41);
+  textSize(width*0.0083);
+  text(bestBackpack().toString(), width*0.81, height*0.39);
  
  
   strokeWeight(1);
