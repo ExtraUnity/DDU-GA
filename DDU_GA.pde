@@ -1,5 +1,5 @@
 import java.util.Collections;
-Item[] ITEMS ;//= {new Item(100, 100), new Item(25, 10), new Item(500, 700), new Item(1000, 700), new Item(225, 45), new Item(31, 48), new Item(83, 101)};
+Item[] ITEMS ;
 Backpack[] bags;
 int size;
 float average = 0;
@@ -209,6 +209,10 @@ void renderGraph() {
 
   text("Best Fitness", width*0.83, height*0.9+15);
   text("Worst Fitness", width*0.83, height*0.95+15);
+  
+  text("Axies: # generations / fitness", width*0.35, height*0.95);
+  
+  
 }
 
 void loadConfig() {
