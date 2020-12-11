@@ -151,8 +151,8 @@ Backpack bestBackpack() {
 }
 
 void addToList() {
-  if (bestFitnesses.size()>20) {
-    if (!bestFitnesses.get(bestFitnesses.size()-1).equals(Collections.max(bestFitnesses)) || !bestFitnesses.get(bestFitnesses.size()-21).equals(Collections.max(bestFitnesses))) {
+  if (bestFitnesses.size()>6) {
+    if (!maxFound()) {
       generations.add(frameCount);
       bestFitnesses.add((int) bestFitness());
       worstFitnesses.add((int) worstFitness());
@@ -166,6 +166,18 @@ void addToList() {
     bestFitnesses.add((int) bestFitness());
     worstFitnesses.add((int) worstFitness());
   }
+}
+
+// bestFitnesses.get(bestFitnesses.size()-i).equals(Collections.max(bestFitnesses))
+boolean maxFound() {
+  int count = 0;
+  
+  for(int i = 1; i<6 ; i++){
+   if( bestFitnesses.get(bestFitnesses.size()-i) - bestFitnesses.get(bestFitnesses.size()-i-1) == 0) {
+     count ++;
+   }
+  }
+  return count >=5;
 }
 
 void renderGraph() {
@@ -200,8 +212,8 @@ void renderGraph() {
   strokeWeight(1);
   fill(100);
 
-  rect(width*0.805, height*0.89, 40+width*0.1,height*0.1);
-      fill(0, 0, 255);
+  rect(width*0.805, height*0.89, 40+width*0.1, height*0.1);
+  fill(0, 0, 255);
   rect(width*0.81, height*0.9, 20, 20);
   fill(255, 0, 0);
   rect(width*0.81, height*0.95, 20, 20);
@@ -209,10 +221,8 @@ void renderGraph() {
 
   text("Best Fitness", width*0.83, height*0.9+15);
   text("Worst Fitness", width*0.83, height*0.95+15);
-  
+
   text("Axies: # generations / fitness", width*0.35, height*0.95);
-  
-  
 }
 
 void loadConfig() {
