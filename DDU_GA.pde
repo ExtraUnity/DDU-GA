@@ -178,6 +178,7 @@ void renderGraph() {
     int y3 = round(map(worstFitnesses.get(i), Collections.min(worstFitnesses)-50, Collections.max(bestFitnesses)+height*0.1, height, 0));
     int y4 = round(map(worstFitnesses.get(i+1), Collections.min(worstFitnesses)-50, Collections.max(bestFitnesses)+height*0.1, height, 0));
     stroke(0, 0, 255);
+    strokeWeight(3);
     line(x1, y1, x2, y2);
     stroke(255, 0, 0);
     line(x1, y3, x2, y4);
@@ -191,14 +192,21 @@ void renderGraph() {
   text("Weight of Bag: " + bestBackpack().getWeight() + "g", width*0.81, height*0.19);
   text("Population: " + size, width*0.81, height*0.22);
   text("Mutation Rate: " + globalMutationRate, width*0.81, height*0.25);
+  line(width*0.81, height*0.27, width-width*0.01, height*0.27);
   text("Best backpack: ", width*0.81, height*0.31);
   textSize(16);
   text(bestBackpack().toString(), width*0.81, height*0.34);
-  fill(0, 0, 255);
+
+  strokeWeight(1);
+  fill(100);
+
+  rect(width*0.805, height*0.89, 40+width*0.1,height*0.1);
+      fill(0, 0, 255);
   rect(width*0.81, height*0.9, 20, 20);
   fill(255, 0, 0);
   rect(width*0.81, height*0.95, 20, 20);
   fill(255);
+
   text("Best Fitness", width*0.83, height*0.9+15);
   text("Worst Fitness", width*0.83, height*0.95+15);
 }
