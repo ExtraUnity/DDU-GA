@@ -9,19 +9,21 @@ ArrayList<Integer> generations = new ArrayList<Integer>();
 ArrayList<Integer> bestFitnesses = new ArrayList<Integer>();
 ArrayList<Integer> worstFitnesses = new ArrayList<Integer>();
 int maxWeight;
+long time = System.nanoTime();
+
 void setup() {
   loadConfig();
   fullScreen();
   ITEMS = itemImport("input.txt");
   bags = initializePopulation(size);
-  frameRate(10);
+  frameRate(5);
   generations.add(frameCount);
   bestFitnesses.add((int) bestFitness());
   worstFitnesses.add((int) worstFitness());
 }
 
 void draw() {
-  long time = System.currentTimeMillis();
+
 
   //print(frameCount + " ");
   //println(bestFitness());
@@ -31,7 +33,6 @@ void draw() {
   background(100);
   addToList();
   renderGraph();
-  long time2 = System.currentTimeMillis();
 }
 
 Backpack[] initializePopulation (int size) {
@@ -46,9 +47,7 @@ Backpack[] initializePopulation (int size) {
 
 Backpack[] makeNewPopulation () {
   float totalFitness = totalFitness();
-
   Backpack[] temp = new Backpack[bags.length];
-
   for (int i = 0; i<temp.length; i++) {
     Backpack[] b = new Backpack[2];
     for (int j = 0; j<b.length; j++) {
@@ -158,6 +157,8 @@ void addToList() {
       bestFitnesses.add((int) bestFitness());
       worstFitnesses.add((int) worstFitness());
     } else {
+      long time2 = System.nanoTime();
+      println((time2-time)/1000000000);
       noLoop();
     }
   } else {
@@ -198,8 +199,8 @@ void renderGraph() {
   fill(255, 0, 0);
   rect(width*0.81, height*0.95, 20, 20);
   fill(255);
-  text("Best Fitness", width*0.83,height*0.9+15);
-  text("Worst Fitness", width*0.83,height*0.95+15);
+  text("Best Fitness", width*0.83, height*0.9+15);
+  text("Worst Fitness", width*0.83, height*0.95+15);
 }
 
 void loadConfig() {
