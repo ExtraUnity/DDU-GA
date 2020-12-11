@@ -11,4 +11,9 @@ Specifically it is the 0-1 Knapsack problem.
 Written by Emil Boesgaard Nørbjerg & Christian Vedel Petersen, H. C. Ørsted Gymnatiet.
 This assignment is part of the subject digital design and development
 
-## config and input file
+## Config and input file
+In the config file, the variables of the program can be configured.
+This includes the population size, the mutation rate, and the maximal knapsack weight.
+
+In the input file, the list of available items can be specified.
+The first line of the file contains instructions for use.
