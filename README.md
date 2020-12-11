@@ -10,3 +10,5 @@ Solution of the [Knapsack problem](https://en.wikipedia.org/wiki/Knapsack_proble
 Specifically it is the 0-1 Knapsack problem.
 Written by Emil Boesgaard Nørbjerg & Christian Vedel Petersen, H. C. Ørsted Gymnatiet.
 This assignment is part of the subject digital design and development
+
+## config and input file
