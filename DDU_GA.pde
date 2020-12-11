@@ -90,7 +90,7 @@ Backpack selectBackpack(float totalFitness, Backpack b1) {
     if (bags[i] != b1) {
       outOf += bags[i].getFitness()/(totalFitness);
       
-      if (selection-outOf<0.000001) { //floating point error makes this nessecary
+      if (outOf>=selection) { //floating point error makes this nessecary
         return bags[i];
       }
     }
@@ -172,7 +172,7 @@ void confirmAndFound(){
   //text("First found at: "+bestFitnesses.indexOf(Collections.max(bestFitnesses)));
   //text("Confirmed at: " + frameCount, );
   textSize(width*0.0125);
-  text(bestFitnesses.indexOf(Collections.max(bestFitnesses)),width*0.90, height*0.30 ); 
+  text(bestFitnesses.indexOf(Collections.max(bestFitnesses)),width*0.92, height*0.30 ); 
   text(frameCount,width*0.90,height*0.33);
 }
 
@@ -220,7 +220,7 @@ void renderGraph() {
   text("Mutation Rate: " + globalMutationRate, width*0.81, height*0.25);
   line(width*0.81, height*0.27, width-width*0.01, height*0.27);
 
-  text("First found at: ",width*0.81, height*0.30 );
+  text("Solution found at: ",width*0.81, height*0.30 );
   text("Confirmed at: " ,width*0.81 ,height*0.33);
   
   line(width*0.81, height*0.34, width-width*0.01, height*0.34);
