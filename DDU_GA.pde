@@ -23,12 +23,9 @@ void setup() {
 }
 
 void draw() {
-
-
   //print(frameCount + " ");
   //println(bestFitness());
   bags = makeNewPopulation();
-
 
   background(100);
   addToList();
@@ -159,6 +156,7 @@ void addToList() {
     } else {
       //long time2 = System.nanoTime();
       //println((time2-time)/1000000000);
+      confirmAndFound();
       noLoop();
     }
   } else {
@@ -166,6 +164,15 @@ void addToList() {
     bestFitnesses.add((int) bestFitness());
     worstFitnesses.add((int) worstFitness());
   }
+}
+
+
+void confirmAndFound(){
+  //text("First found at: "+bestFitnesses.indexOf(Collections.max(bestFitnesses)));
+  //text("Confirmed at: " + frameCount, );
+  textSize(24);
+  text("                      "+bestFitnesses.indexOf(Collections.max(bestFitnesses)),width*0.81, height*0.30 );
+  text("                      " +frameCount,width*0.81 ,height*0.33);
 }
 
 // bestFitnesses.get(bestFitnesses.size()-i).equals(Collections.max(bestFitnesses))
@@ -206,9 +213,16 @@ void renderGraph() {
   text("Population: " + size, width*0.81, height*0.22);
   text("Mutation Rate: " + globalMutationRate, width*0.81, height*0.25);
   line(width*0.81, height*0.27, width-width*0.01, height*0.27);
-  text("Best backpack: ", width*0.81, height*0.31);
+
+  text("First found at: ",width*0.81, height*0.30 );
+  text("Confirmed at: " ,width*0.81 ,height*0.33);
+  
+  line(width*0.81, height*0.34, width-width*0.01, height*0.34);
+  text("Best backpack: ", width*0.81, height*0.37);
   textSize(16);
-  text(bestBackpack().toString(), width*0.81, height*0.34);
+  text(bestBackpack().toString(), width*0.81, height*0.41);
+  
+ 
 
   strokeWeight(1);
   fill(100);
