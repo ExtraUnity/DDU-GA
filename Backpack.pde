@@ -18,7 +18,7 @@ class Backpack {
   void mutate(int index) {
     if(random(1)<mutationRate) {
       if(this.items[index] != null) {
-      this.items[index] = null;
+        this.items[index] = null;
       } else {
         this.items[index] = ITEMS[index];
       }
