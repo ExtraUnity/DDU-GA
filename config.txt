@@ -1,3 +1,3 @@
-population 4137
+population 3000
 mutationRate 0.01
 maxWeight 5000
