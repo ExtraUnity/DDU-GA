@@ -3,11 +3,11 @@ class Item {
   float value;
   String name;
 
-  Item(float _w, float _v) {
-    this.weight = _w;
-    this.value = _v;
-    this.name = "Book";
-  }
+  //Item(float _w, float _v) {
+  //  this.weight = _w;
+  //  this.value = _v;
+  //  this.name = "Book";
+  //}
 
   Item(String instruction) {
     // the expected format is Name Weight Value 

@@ -1,14 +1,17 @@
 import java.util.Collections;
+
 Item[] ITEMS;
 Backpack[] bags;
 int size;
 float average = 0;
 int times = 0;
 float globalMutationRate;
+int maxWeight;
+
 ArrayList<Integer> generations = new ArrayList<Integer>();
 ArrayList<Integer> bestFitnesses = new ArrayList<Integer>();
 ArrayList<Integer> worstFitnesses = new ArrayList<Integer>();
-int maxWeight;
+
 long time = System.nanoTime();
 
 void setup() {
@@ -23,8 +26,6 @@ void setup() {
 }
 
 void draw() {
-  //print(frameCount + " ");
-  //println(bestFitness());
   bags = makeNewPopulation();
 
   background(100);
@@ -59,7 +60,6 @@ Backpack[] makeNewPopulation () {
 }
 
 Backpack mergeBackpacks(Backpack b1, Backpack b2) {
-
   Backpack tempBack = new Backpack();
   int pivot = (int) random(0, ITEMS.length);
   for (int i = 0; i<pivot; i++) {
@@ -74,7 +74,6 @@ Backpack mergeBackpacks(Backpack b1, Backpack b2) {
 }
 
 Backpack selectBackpack(float totalFitness, Backpack b1) {
-
   double outOf = 0;
   double selection = random(1);
 
@@ -104,7 +103,6 @@ float totalFitness() {
 }
 
 Item[] itemImport(String path) {
-
   String[] input = loadStrings(path);
   Item[] temp = new Item[input.length];
 
@@ -149,13 +147,11 @@ Backpack bestBackpack() {
 
 void addToList() {
   if (bestFitnesses.size()>6) {
-    if (!maxFound()) {
+    if (!maxFound()) { // if problem is not solved, add the coordinates to the array
       generations.add(frameCount);
       bestFitnesses.add((int) bestFitness());
       worstFitnesses.add((int) worstFitness());
     } else {
-      //long time2 = System.nanoTime();
-      //println((time2-time)/1000000000);
       confirmAndFound();
       noLoop();
     }
@@ -166,7 +162,6 @@ void addToList() {
   }
 }
 
-
 void confirmAndFound(){
   //text("First found at: "+bestFitnesses.indexOf(Collections.max(bestFitnesses)));
   //text("Confirmed at: " + frameCount, );
@@ -175,7 +170,6 @@ void confirmAndFound(){
   text("                      " +frameCount,width*0.81 ,height*0.33);
 }
 
-// bestFitnesses.get(bestFitnesses.size()-i).equals(Collections.max(bestFitnesses))
 boolean maxFound() {
   int count = 0;
   
@@ -221,9 +215,8 @@ void renderGraph() {
   text("Best backpack: ", width*0.81, height*0.37);
   textSize(16);
   text(bestBackpack().toString(), width*0.81, height*0.41);
-  
  
-
+ 
   strokeWeight(1);
   fill(100);
 
@@ -237,7 +230,7 @@ void renderGraph() {
   text("Best Fitness", width*0.83, height*0.9+15);
   text("Worst Fitness", width*0.83, height*0.95+15);
 
-  text("Axies: # generations / fitness", width*0.35, height*0.95);
+  text("# generations / fitness", width*0.35, height*0.95);
 }
 
 void loadConfig() {

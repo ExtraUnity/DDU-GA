@@ -5,12 +5,9 @@ class Backpack {
   final float MAXIMUM_WEIGHT = maxWeight;
 
   Backpack() {
-    //for(int i = 0; i<(int) random(1,100); i++) {
-    //  items.add(ITEMS[(int) random(0,ITEMS.length)]);
-    //}
     this.mutationRate = globalMutationRate;
     items = new Item[ITEMS.length];
-    // Alternative:
+    
     for (int i = 0; i<ITEMS.length; i++) {
       if (random(1)>0.5) {
         items[i] = ITEMS[i];
@@ -63,6 +60,7 @@ class Backpack {
   
     return sb.toString();
   }
+  
   int getWeight() {
     int wei = 0;
     for (Item q : this.items) {
