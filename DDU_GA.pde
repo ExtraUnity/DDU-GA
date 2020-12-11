@@ -198,6 +198,7 @@ void renderGraph() {
   }
   line(width*0.8, height, width*0.8, 0);
   textSize(24);
+  text("Time: " + millis()/1000.0 +"s", width*0.81, height*0.07);
   text("Generation: " + frameCount, width*0.81, height*0.1);
   text("Best Fitness: " + Collections.max(bestFitnesses), width*0.81, height*0.13);
   text("Current Fitness: " + bestFitnesses.get(bestFitnesses.size()-1), width*0.81, height*0.16);
