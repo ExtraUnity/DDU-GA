@@ -23,6 +23,8 @@ void setup() {
   generations.add(frameCount);
   bestFitnesses.add((int) bestFitness());
   worstFitnesses.add((int) worstFitness());
+  
+
 }
 
 void draw() {
@@ -62,11 +64,14 @@ Backpack[] makeNewPopulation () {
 Backpack mergeBackpacks(Backpack b1, Backpack b2) {
   Backpack tempBack = new Backpack();
   int pivot = (int) random(0, ITEMS.length);
+  
   for (int i = 0; i<pivot; i++) {
+
     tempBack.items[i] = b1.items[i];
     tempBack.mutate(i);
   }
   for (int i = pivot; i<ITEMS.length; i++) {
+
     tempBack.items[i] = b2.items[i];
   }
 
@@ -84,13 +89,14 @@ Backpack selectBackpack(float totalFitness, Backpack b1) {
   for (int i = 0; i<bags.length; i++) {
     if (bags[i] != b1) {
       outOf += bags[i].getFitness()/(totalFitness);
-
+      
       if (selection-outOf<0.000001) { //floating point error makes this nessecary
-
         return bags[i];
       }
     }
   }
+  
+  //println(selection, outOf);
   return null;
 }
 
@@ -147,7 +153,7 @@ Backpack bestBackpack() {
 
 void addToList() {
   if (bestFitnesses.size()>6) {
-    if (!maxFound()) { // if problem is not solved, add the coordinates to the array
+    if (!maxFound() && !noProgress()) { // if problem is not solved, add the coordinates to the array
       generations.add(frameCount);
       bestFitnesses.add((int) bestFitness());
       worstFitnesses.add((int) worstFitness());
@@ -166,8 +172,8 @@ void confirmAndFound(){
   //text("First found at: "+bestFitnesses.indexOf(Collections.max(bestFitnesses)));
   //text("Confirmed at: " + frameCount, );
   textSize(24);
-  text("                      "+bestFitnesses.indexOf(Collections.max(bestFitnesses)),width*0.81, height*0.30 );
-  text("                      " +frameCount,width*0.81 ,height*0.33);
+  text(bestFitnesses.indexOf(Collections.max(bestFitnesses)),width*0.90, height*0.30 );
+  text(frameCount,width*0.90,height*0.33);
 }
 
 boolean maxFound() {
@@ -179,6 +185,12 @@ boolean maxFound() {
    }
   }
   return count >=5;
+}
+
+boolean noProgress(){
+  bestFitnesses.indexOf(Collections.max(bestFitnesses));
+  return frameCount -  bestFitnesses.indexOf(Collections.max(bestFitnesses)) >= 150; 
+
 }
 
 void renderGraph() {
